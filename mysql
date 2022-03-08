@@ -1,0 +1,18 @@
+FROM mysql:specify version
+
+yum check-update ; yum update ;
+
+environment:
+    MYSQL_ROOT_PASSWORD: root
+    MYSQL_USER: theusername
+    MYSQL_PASSWORD: thepw
+    MYSQL_DATABASE: mydb
+    MYSQL_PORT=3306
+
+
+Here you can speficy the location or backup of database SQL and much more
+ADD data.sql /etc/mysql/data.sql
+RUN sed -i 's/MYSQL_DATABASE/'$MYSQL_DATABASE'/g' /etc/mysql/data.sql
+RUN cp /etc/mysql/data.sql /docker-entrypoint-initdb.d
+
+EXPOSE 3306
